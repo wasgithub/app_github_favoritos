@@ -7,11 +7,19 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "jetifier -r"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.8",
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-gesture-handler": "^1.6.1",
+    "react-native-reanimated": "^1.8.0",
+    "react-native-safe-area-context": "^0.7.3",
+    "react-native-screens": "^2.4.0",
+    "react-navigation": "^4.3.7",
+    "react-navigation-stack": "^2.3.11",
     "reactotron-react-native": "^5.0.0"
   },
   "devDependencies": {
@@ -29,6 +37,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "jest": "^25.3.0",
+    "jetifier": "^1.6.5",
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier": "^2.0.4",
     "react-test-renderer": "16.11.0"
