@@ -14,18 +14,19 @@ export default function Main() {
   const [newUser, setNewUser] = useState('')
 
   const handleAddUser = async () => {
-    const response = api.get(`/users/${newUser}`)
-    const { name, login, bio, avatar_url} = response
+    const response = await api.get(`/users/${newUser}`)
+    const { name, login, bio, avatar_url } = response.data;
 
-    const data ={
+    let data ={
       name,
       login,
       bio,
       avatar_url
     }
 
-    setNewUser([...user, data]);
+    setUser([...user, data]);
     setNewUser('')
+    console.tron.log(user)
 
     Keyboard.dismiss();
 
