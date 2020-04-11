@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
-import { RectButton} from 'react-native-gesture-handler'
-import Icon from "react-native-vector-icons/MaterialIcons"
+import { View, TextInput, StyleSheet, Keyboard } from 'react-native';
+import { RectButton} from 'react-native-gesture-handler';
+import Icon from "react-native-vector-icons/MaterialIcons";
+
+import api from '../../services/api'
 
 
 // import { Container } from './styles';
@@ -11,8 +13,22 @@ export default function Main() {
   const [user, setUser] = useState([])
   const [newUser, setNewUser] = useState('')
 
-  const handleAddUser = () => {
-    console.tron.log(newUser);
+  const handleAddUser = async () => {
+    const response = api.get(`/users/${newUser}`)
+    const { name, login, bio, avatar_url} = response
+
+    const data ={
+      name,
+      login,
+      bio,
+      avatar_url
+    }
+
+    setNewUser([...user, data]);
+    setNewUser('')
+
+    Keyboard.dismiss();
+
   }
 
   return (
