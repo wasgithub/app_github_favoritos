@@ -7,7 +7,7 @@ import "./config/ReactoTronConfig";
 const App = () => {
   return (
     <Fragment>
-      <StatusBar barStyle="light-content" backgroundColor="#7159c1"/>
+      <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
       <Routes />
     </Fragment>
   );
