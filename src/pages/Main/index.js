@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Keyboard, Image, Text, FlatList, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, StyleSheet, Keyboard, Image, Text, FlatList, Alert, ActivityIndicator } from 'react-native';
 import { RectButton} from 'react-native-gesture-handler';
 import Icon from "react-native-vector-icons/MaterialIcons";
+import AsyncStorage from '@react-native-community/async-storage';
 
 import api from '../../services/api'
 
@@ -11,24 +12,41 @@ import api from '../../services/api'
 export default function Main(props) {
 
   const [user, setUser] = useState([])
+  const [loading, setLoading] = useState(false)
   const [newUser, setNewUser] = useState('')
 
-  const handleAddUser = async () => {
-    const response = await api.get(`/users/${newUser}`)
-    const { name, login, bio, avatar_url } = response.data;
+  useEffect(async () => {
+    const users = await AsyncStorage.getItem('users');
 
-    let data ={
-      name,
-      login,
-      bio,
-      avatar_url
+    if(users) {
+      console.tron.log(users)
+      setUser(JSON.parse(users));
     }
+  },[])
 
-    setUser([...user, data]);
-    setNewUser('')
-    console.tron.log(user)
+  useEffect(() => {
+    AsyncStorage.setItem('users', JSON.stringify(user))
+  },[user])
 
-    Keyboard.dismiss();
+  const handleAddUser = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get(`/users/${newUser}`)
+      const { name, login, bio, avatar_url } = response.data;
+      let data ={
+        name,
+        login,
+        bio,
+        avatar_url
+      }
+      setUser([...user, data]);
+      setNewUser('')
+    } catch (error) {
+      console.tron.log(error)
+    } finally {
+      setLoading(false);
+      Keyboard.dismiss();
+    }
 
   }
 
@@ -50,8 +68,14 @@ export default function Main(props) {
           returnKeyType={"send"}
           keyboardType={"email-address"}
           onSubmitEditing={handleAddUser} />
-        <RectButton style={styles.submitButton} onPress={handleAddUser}>
-          <Icon name="add" size={25} color="#FFF" />
+        <RectButton
+          style={[styles.submitButton, {opacity: loading ? .7 : 1 }]}
+          onPress={handleAddUser}>
+          {
+            loading
+              ? <ActivityIndicator color="#FFF" />
+              : <Icon name="add" size={25} color="#FFF" />
+          }
         </RectButton>
       </View>
       <FlatList
@@ -145,5 +169,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     textTransform: "uppercase"
-  }
+  },
 })
