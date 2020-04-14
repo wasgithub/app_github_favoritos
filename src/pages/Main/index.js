@@ -15,18 +15,24 @@ export default function Main(props) {
   const [loading, setLoading] = useState(false)
   const [newUser, setNewUser] = useState('')
 
-  useEffect(async () => {
-    const users = await AsyncStorage.getItem('users');
+  useEffect( () => {
+    setUserStorage();
+  },[])
+
+  useEffect(() => {
+    console.tron.log(user)
+    AsyncStorage.setItem('user', JSON.stringify(user))
+  },[user])
+
+  const setUserStorage = async () =>  {
+    const users = await AsyncStorage.getItem('user');
+    console.log("users", users)
 
     if(users) {
       console.tron.log(users)
       setUser(JSON.parse(users));
     }
-  },[])
-
-  useEffect(() => {
-    AsyncStorage.setItem('users', JSON.stringify(user))
-  },[user])
+  }
 
   const handleAddUser = async () => {
     try {
@@ -50,8 +56,8 @@ export default function Main(props) {
 
   }
 
-  const handleProfile = () => {
-    props.navigation.navigate("User")
+  const handleProfile = (user) => {
+    props.navigation.navigate("User", { user })
   }
 
   return (
@@ -89,7 +95,7 @@ export default function Main(props) {
               <Image source={{uri: item.avatar_url}} style={styles.avatar_url}/>
               <Text style={styles.name}>{item.name}</Text>
               <Text style={styles.bio}>{item.bio}</Text>
-              <RectButton style={styles.perfilButton} onPress={handleProfile}>
+              <RectButton style={styles.perfilButton} onPress={() => handleProfile(item)}>
                 <Text style={styles.perfilButtonText}>Ver Perfil</Text>
               </RectButton>
             </View>
