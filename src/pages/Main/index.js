@@ -20,7 +20,6 @@ export default function Main(props) {
   },[])
 
   useEffect(() => {
-    console.tron.log(user)
     AsyncStorage.setItem('user', JSON.stringify(user))
   },[user])
 
@@ -60,6 +59,15 @@ export default function Main(props) {
     props.navigation.navigate("User", { user })
   }
 
+  const handleDelete = item => {
+    const AuxUser = user.filter(use => {
+      return use.login != item.login
+    })
+    setUser(AuxUser)
+    AsyncStorage.setItem('user', JSON.stringify(AuxUser))
+
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.form}>
@@ -89,9 +97,12 @@ export default function Main(props) {
         data={user}
         showsVerticalScrollIndicator={false}
         keyExtractor={user => user.login}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           return(
             <View style={styles.user}>
+              <RectButton style={styles.buttonDelete} onPress={() => handleDelete(item)}>
+                <Icon name="delete" size={25} color={"red"} />
+              </RectButton>
               <Image source={{uri: item.avatar_url}} style={styles.avatar_url}/>
               <Text style={styles.name}>{item.name}</Text>
               <Text style={styles.bio}>{item.bio}</Text>
@@ -176,4 +187,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textTransform: "uppercase"
   },
+  buttonDelete: {
+    position: "absolute",
+    top: 0,
+    right: 30
+  }
 })
