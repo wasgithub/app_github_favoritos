@@ -65,7 +65,10 @@ export default function Main(props) {
     })
     setUser(AuxUser)
     AsyncStorage.setItem('user', JSON.stringify(AuxUser))
+  }
 
+  const reloadItem = () => {
+    console.tron.log("realizando chamada");
   }
 
   return (
@@ -97,6 +100,8 @@ export default function Main(props) {
         data={user}
         showsVerticalScrollIndicator={false}
         keyExtractor={user => user.login}
+        onEndReached={reloadItem}
+        onEndReachedThreshold={0.1}
         renderItem={({ item, index }) => {
           return(
             <View style={styles.user}>
