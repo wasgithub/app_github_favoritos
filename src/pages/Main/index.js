@@ -3,6 +3,7 @@ import { View, TextInput, StyleSheet, Keyboard, Image, Text, FlatList, Alert, Ac
 import { RectButton} from 'react-native-gesture-handler';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from '@react-native-community/async-storage';
+import BarcodeScan from "../../components/barcodeScanner"
 
 import api from '../../services/api'
 
@@ -95,6 +96,7 @@ export default function Main(props) {
           }
         </RectButton>
       </View>
+      <BarcodeScan />
       <FlatList
         style={styles.list}
         data={user}
