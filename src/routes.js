@@ -3,10 +3,12 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import Main from './pages/Main';
 import User from './pages/User'
+import Camera from './pages/Camera'
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
+      Camera,
       Main,
       User
     },
