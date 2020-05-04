@@ -2,27 +2,26 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import Main from './pages/Main';
-import User from './pages/User'
-import Camera from './pages/Camera'
+import User from './pages/User';
+import Camera from './pages/Camera';
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
-      Camera,
       Main,
-      User
+      User,
+      Camera,
     },
     {
       defaultNavigationOptions: {
-        headerTitleAlign: "center",
+        headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: "#7159c1"
+          backgroundColor: '#7159c1',
         },
-        headerTintColor: "#fff"
-      }
+        headerTintColor: '#fff',
+      },
     }
-
   )
-)
+);
 
 export default Routes;
